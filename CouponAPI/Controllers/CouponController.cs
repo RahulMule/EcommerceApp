@@ -44,5 +44,17 @@ namespace CouponAPI.Controllers
             }
             return Ok(coupon);
         }
+
+        [HttpGet]
+        [Route("/CouponName/{name}")]
+        public async Task<IActionResult> GetCouponbyName(string name)
+        {
+            Coupon coupon =  _context.Coupons.FirstOrDefault<Coupon>(u => u.CouponName == name);
+            if (coupon == null)
+            {
+                return BadRequest();
+            }
+            return Ok(coupon);
+        }
     }
 }
