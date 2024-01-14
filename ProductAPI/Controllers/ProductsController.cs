@@ -25,14 +25,15 @@ namespace ProductAPI.Controllers
             return new OkObjectResult(products);
         }
         [HttpPost]
-        public IActionResult AddProduct(Product product)
+        public async Task<IActionResult> AddProduct(Product product,CancellationToken cancellationToken)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Products.Add(product);
-                    _context.SaveChanges();
+                    Task.Delay(TimeSpan.FromSeconds(5));
+                    await _context.Products.AddAsync(product);
+                    await _context.SaveChangesAsync(cancellationToken);
                     return CreatedAtAction(nameof(GetProductbyID), new { id = product.Id }, product);
                 }
                 return BadRequest(ModelState);
