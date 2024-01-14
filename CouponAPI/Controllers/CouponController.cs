@@ -28,9 +28,17 @@ namespace CouponAPI.Controllers
             {
                 return BadRequest();
             }
-            await _context.Coupons.AddAsync(coupon);
-            await _context.SaveChangesAsync();
-            return Ok();
+            Coupon cpn = _context.Coupons.FirstOrDefault<Coupon>(u => u.CouponName.ToLower() == coupon.CouponName.ToLower());
+            if (cpn == null)
+            {
+                await _context.Coupons.AddAsync(coupon);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Coupon Already exists");
+            }
 
         }
         [HttpGet]
@@ -49,12 +57,28 @@ namespace CouponAPI.Controllers
         [Route("/CouponName/{name}")]
         public async Task<IActionResult> GetCouponbyName(string name)
         {
-            Coupon coupon =  _context.Coupons.FirstOrDefault<Coupon>(u => u.CouponName == name);
+            Coupon? coupon =  _context.Coupons.FirstOrDefault<Coupon>(u => u.CouponName == name);
             if (coupon == null)
             {
                 return BadRequest();
             }
             return Ok(coupon);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteCouponbyID(int id)
+        {
+            Coupon? coupon = await _context.Coupons.FindAsync(id);
+            if(coupon == null)
+            {
+                return BadRequest();
+            }
+            _context.Coupons.Remove(coupon);
+            await _context.SaveChangesAsync();
+            return Ok();
+
+        }
+
     }
 }
