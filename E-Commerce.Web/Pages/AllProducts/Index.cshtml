@@ -1,0 +1,53 @@
+﻿@page
+@model E_Commerce.Web.Pages.Product.IndexModel
+@{
+}
+<head>
+	<div class="row">
+	<h1 class="col-9">List of Products</h1>
+		<a asp-page="Add" class="btn btn-primary  col-3">Add Product</a>
+	</div>
+</head>
+
+<body>
+	<div class="row">
+<table class="table table-bordered  table-striped table-hover table-responsive">
+	<thead>
+		<tr>
+			<th>Product Name</th>
+			<th>Product Description</th>
+			<th>Product Price</th>
+					<th> Update/Delete Product</th>
+			
+		</tr>
+	</thead>
+		<tbody style="margin:10%">
+		@foreach( var obj in Model.products)
+		{
+			<tr >
+				<td width="30%">@obj.ProductName</td>
+				<td width="30%">@obj.ProductDescription</td>
+				<td width="10%">@obj.Price</td>
+						<td width="30%">
+							<div class="btn-group">
+							<a asp-page="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">Edit</a> <br />
+							<form method="post" asp-page-handler="Delete" asp-route-id="@obj.Id" onsubmit="return confirm('Are you sure you want to delete this item?')">
+								<button type="submit" class="btn btn-danger mx-2">Delete</button>
+							</form>
+							</div>
+						</td>
+						
+						 
+						
+			</tr>
+		}
+	</tbody>
+</table>
+		@* @foreach(var obj in Model.products)
+		{
+			<div class="col-md-4"><h3>@obj.ProductName</h3></div>
+			<div class="col-md-4"><p>@obj.ProductDescription</p></div>
+			<div class="col-md-4">@obj.Price</div>
+		} *@
+	</div>
+</body>

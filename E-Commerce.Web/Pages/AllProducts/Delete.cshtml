@@ -1,0 +1,24 @@
+﻿@page
+@model E_Commerce.Web.Pages.AllProducts.DeleteModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+
+	<h2>Text input fields</h2>
+
+	<form method="post">
+		<input hidden asp-for="Product.Id" />
+		
+		<button class="btn-primary" type="submit"> Delete Product</button>
+		
+		<a asp-page="Index" class="btn btn-secondary" style="width:150px;"> Back to List</a>
+	</form>	
+
+	
+
+</body>
+</html>
+
