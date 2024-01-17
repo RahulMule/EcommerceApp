@@ -64,6 +64,29 @@ namespace ProductAPI.Controllers
             return NoContent();
             
         }
-    }
+		[HttpDelete("{id}")]
+		public IActionResult RemoveProductbyID(int id)
+		{
+			Product product = _context.Products.Find(id);
+			if (product == null)
+			{
+				return NoContent();
+			}
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+            return new OkResult();
+		}
+		[HttpPut]
+		public IActionResult UpdateProductby(Product product)
+		{
+			if(ModelState.IsValid)
+            {
+                _context.Products.Update(product);
+                _context.SaveChanges();
+                return NoContent();
+            }
+            return BadRequest(ModelState);
+		}
+	}
 
 }
