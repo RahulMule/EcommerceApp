@@ -1,5 +1,6 @@
 using E_Commerce.Web.Data;
 using E_Commerce.Web.Models;
+using E_Commerce.Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,34 +8,19 @@ namespace E_Commerce.Web.Pages.Product
 {
     public class IndexModel : PageModel
     {
-        private readonly ProductContext _context;
+		private readonly IProductService _productService;
 		
 		public IEnumerable<E_Commerce.Web.Models.Product> products { get; set; }
 
-        public IndexModel(ProductContext context)
+        public IndexModel(IProductService productService)
         {
-            _context = context;
+			_productService = productService;
         }
 
         public void OnGet()
         {
-            products = _context.Products;
+            products = (IEnumerable<Models.Product>)_productService.GetAllProduct();
           
-        }
-		
-		public IActionResult OnPostDelete(int id)
-		{
-			var product = _context.Products.Find(id);
-
-			if (product == null)
-			{
-				return NotFound();
-			}
-
-			_context.Products.Remove(product);
-			_context.SaveChanges();
-
-			return RedirectToPage();
-		}
+        }	
 	}
 }
