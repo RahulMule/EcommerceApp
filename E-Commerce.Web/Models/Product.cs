@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_Commerce.Web.Models
 {
@@ -14,5 +15,10 @@ namespace E_Commerce.Web.Models
         public string ProductCategory { get; set; } = string.Empty;
         [Required]
         public decimal Price { get; set; }
-    }
+
+		public static explicit operator Product(Task<IActionResult> v)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

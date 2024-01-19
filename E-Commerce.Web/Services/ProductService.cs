@@ -26,12 +26,11 @@ namespace E_Commerce.Web.Services
 
 		}
 
-		public async Task<Product> GetProductAsync(int id)
+		public async Task<IActionResult> GetProductAsync(int id)
 		{
 			string BasePathnew = BasePath + id;
-			var response = await _httpClient.GetAsync(BasePathnew);
-			Product product = JsonConvert.DeserializeObject<Product>(await response.Content.ReadAsStringAsync()) ;
-			return product;
+			var response =  await _httpClient.GetAsync(BasePathnew);
+			return new OkObjectResult(response.Content);
 
 		}
 

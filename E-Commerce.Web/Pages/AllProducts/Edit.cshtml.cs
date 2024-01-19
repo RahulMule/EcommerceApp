@@ -18,7 +18,7 @@ namespace E_Commerce.Web.Pages.Product
 
 		public void OnGet(int Id)
         {
-			Product = _productService.GetProductAsync(Id);
+			Product = (E_Commerce.Web.Models.Product)_productService.GetProductAsync(Id);
         }
         public async Task<IActionResult> OnPost(E_Commerce.Web.Models.Product product)
         {
