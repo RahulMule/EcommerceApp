@@ -20,19 +20,13 @@ namespace E_Commerce.Web.Services
             var response = await _httpClient.GetAsync(BasePath);
             if (response.IsSuccessStatusCode)
             {
-                // Read the response content as a string
                 var responseContent = await response.Content.ReadAsStringAsync();
-
-                // Deserialize the JSON string into a list of Product objects
                 var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(responseContent);
-
                 return products;
             }
             else
             {
-                // Handle unsuccessful response
-                // You can return null or an empty list based on your error handling strategy
-                return null;
+                return null; // You may want to throw an exception or handle error differently
             }
         }
 
