@@ -15,16 +15,16 @@ namespace E_Commerce.Web.Services
         {
 			_httpClient = httpClient;	
         }
-		public async Task<IActionResult> GetAllProduct()
-		{
-			var response = await _httpClient.GetAsync(BasePath);
-			if (response.IsSuccessStatusCode)
-			{
-				return new OkObjectResult(response.Content);
-			}
-			return new BadRequestResult();
-
-		}
+		public async Task<IEnumerable<Product>> GetAllProduct()
+        {
+            var response = await _httpClient.GetAsync(BasePath);
+            if (response.IsSuccessStatusCode)
+            {
+                var products = await response.Content.ReadAsAsync<IEnumerable<Product>>();
+                return products;
+            }
+            return null; // Return null or empty collection based on your error handling strategy
+        }
 
 		public async Task<IActionResult> GetProductAsync(int id)
 		{
