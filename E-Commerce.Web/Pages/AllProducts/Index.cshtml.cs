@@ -19,17 +19,7 @@ namespace E_Commerce.Web.Pages.Product
 
         public void OnGet()
         {
-           var result = await _productService.GetAllProduct();
-            if (result is OkObjectResult okResult)
-            {
-                Products = (IEnumerable<Product>)okResult.Value;
-            }
-            else
-            {
-                // Handle other cases like BadRequest, NotFound, etc.
-                Products = new List<Product>(); // Set products to an empty list or handle the error accordingly
-            }
+            products = (IEnumerable<Models.Product>)_productService.GetAllProduct();
           
         }	
-	}
 }
