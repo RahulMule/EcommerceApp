@@ -10,7 +10,7 @@ builder.Services.AddRazorPages();
 string conn = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddDbContext<ProductContext>(options => options.UseSqlServer(conn));
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddHttpClient<IProductService, ProductService>( c => c.BaseAddress = new Uri("https://localhost:7208"));
+builder.Services.AddHttpClient<IProductService, ProductService>( c => c.BaseAddress = new Uri("https://rahulwebappproduct.azurewebsites.net/"));
 
 var app = builder.Build();
 
