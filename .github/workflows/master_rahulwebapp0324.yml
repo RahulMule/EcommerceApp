@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - rahulwebapp0324
 
 on:
@@ -16,23 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
+      - name: Build frontend
+        run: |
+          cd E-Commerce.Web
+          # Replace the build command with the appropriate command for building your frontend code (e.g., npm run build for Node.js projects)
+          npm install
+          npm run build
+
+      - name: Publish frontend artifacts
+        uses: actions/upload-artifact@v2
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
-
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: frontend
+          path: E-Commerce.Web/dist  # Adjust this path to the location of your frontend build artifacts
 
   deploy:
     runs-on: windows-latest
@@ -42,16 +34,17 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+      - name: Download frontend artifact from build job
+        uses: actions/download-artifact@v2
         with:
-          name: .net-app
+          name: frontend
       
-      - name: Deploy to Azure Web App
+      - name: Deploy frontend to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'rahulwebapp0324'
           slot-name: 'Production'
-          package: E-Commerce.Web
+          # Specify the path to the frontend artifacts relative to the root of the repository
+          package: ${{ github.workspace }}/frontend
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_00C732228880429181A163A02042655F }}
