@@ -8,7 +8,7 @@ namespace E_Commerce.Web.Services.IServices
 		Task<IActionResult> AddProduct(Product product);
 		Task<IActionResult> DeleteProduct(int id);
 		Task<IActionResult> UpdateProduct(Product product);
-		Task<IActionResult> GetAllProduct();
+		Task<IEnumerable<Product>> GetAllProduct();
 		Task<IActionResult> GetProductAsync(int id);
 	}
 }
