@@ -16,15 +16,15 @@ jobs:
       - name: Build frontend
         run: |
           cd E-Commerce.Web
-          # Replace the build command with the appropriate command for building your frontend code (e.g., npm run build for Node.js projects)
           npm install
           npm run build
+        working-directory: ${{ github.workspace }}
 
       - name: Publish frontend artifacts
         uses: actions/upload-artifact@v2
         with:
           name: frontend
-          path: E-Commerce.Web/dist  # Adjust this path to the location of your frontend build artifacts
+          path: E-Commerce.Web/dist
 
   deploy:
     runs-on: windows-latest
@@ -40,11 +40,4 @@ jobs:
           name: frontend
       
       - name: Deploy frontend to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'rahulwebapp0324'
-          slot-name: 'Production'
-          # Specify the path to the frontend artifacts relative to the root of the repository
-          package: ${{ github.workspace }}/frontend
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_00C732228880429181A163A02042655F }}
+        id: deploy-to-webap
