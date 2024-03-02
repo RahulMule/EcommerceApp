@@ -15,15 +15,25 @@ namespace E_Commerce.Web.Services
         {
 			_httpClient = httpClient;	
         }
-		public async Task<IEnumerable<Product>> GetAllProduct()
+	 public async Task<IEnumerable<Product>> GetAllProduct()
         {
             var response = await _httpClient.GetAsync(BasePath);
             if (response.IsSuccessStatusCode)
             {
-                var products = await response.Content.ReadAsAsync<IEnumerable<Product>>();
+                // Read the response content as a string
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // Deserialize the JSON string into a list of Product objects
+                var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(responseContent);
+
                 return products;
             }
-            return null; // Return null or empty collection based on your error handling strategy
+            else
+            {
+                // Handle unsuccessful response
+                // You can return null or an empty list based on your error handling strategy
+                return null;
+            }
         }
 
 		public async Task<IActionResult> GetProductAsync(int id)
